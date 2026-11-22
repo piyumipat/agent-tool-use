@@ -1,6 +1,6 @@
 # Agent Tool Use: Project Spec
 
-**Status:** Working specification, 2026-11-19. The core implementation is present; evaluation remains in progress.
+**Status:** Working specification, reviewed 2026-11-22. The core implementation is present; evaluation remains in progress.
 
 ## Goal
 
@@ -100,7 +100,7 @@ Terminal traces label `[agent]`, `[local tool]`, `[MCP client]`, `[MCP server]`,
 | Agent to tool handler | The loop validates the tool name and JSON-schema arguments. | The model's answer or shipping choice is not automatically correct. |
 | User to protected action | The client shows the exact creation arguments and requires explicit approval. | Approval does not grant server permission. |
 | MCP caller to server | The server checks the bearer token and requires `shipping:write` for creation. | Static local tokens are not an OAuth deployment or a general security solution. |
-| Tool result to agent | Tool output is treated as task data, including in the synthetic instruction-in-result experiment. | One compliant model response does not establish prompt-injection resistance. |
+| Tool result to agent | Task instructions tell the model to treat tool output as data. The synthetic instruction-in-result experiment observes one model response. | The runtime does not enforce this instruction; one compliant response does not establish prompt-injection resistance. |
 
 The server requires `shipping:read` at the MCP resource boundary and checks `shipping:write` inside `create_shipment`. A read-only caller must be denied even when it bypasses the agent. The server checks request validity and option availability independently. State is process-local; duplicate prevention does not survive a restart. Token values and model credentials must never be included in recorded traces.
 
